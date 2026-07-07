@@ -1,0 +1,72 @@
+{% extends "petugas_layout.html" %}
+{% block title %}Antrian Aktif{% endblock %}
+{% block nav_antrian %}active{% endblock %}
+
+{% block content %}
+<header class="page-header">
+    <div>
+        <p class="page-eyebrow">DAFTAR ANTRIAN</p>
+        <h1 class="page-title">Antrian Aktif</h1>
+    </div>
+    <p class="page-meta">
+        <i data-lucide="refresh-cw" style="width:12px;height:12px;stroke-width:2;vertical-align:middle;margin-right:4px;"></i>
+        Diperbarui otomatis setiap 3 detik
+    </p>
+</header>
+
+<div class="tabel-wrapper">
+    <div class="tabel-header-bar">
+        <div>
+            <div class="tabel-title">Daftar Permohonan</div>
+            <div class="tabel-sub">Kelola status antrian pemohon tunarungu</div>
+        </div>
+        <div class="filter-bar">
+            <button class="filter-btn active" data-filter="semua">Semua</button>
+            <button class="filter-btn" data-filter="KTP">
+                <i data-lucide="credit-card" style="width:11px;height:11px;stroke-width:2;vertical-align:middle;margin-right:3px;"></i>KTP
+            </button>
+            <button class="filter-btn" data-filter="KK">
+                <i data-lucide="users" style="width:11px;height:11px;stroke-width:2;vertical-align:middle;margin-right:3px;"></i>KK
+            </button>
+            <button class="filter-btn" data-filter="AKTA">
+                <i data-lucide="file-text" style="width:11px;height:11px;stroke-width:2;vertical-align:middle;margin-right:3px;"></i>Akta
+            </button>
+        </div>
+    </div>
+
+    <table class="tabel-antrian">
+        <thead>
+            <tr>
+                <th>
+                    <i data-lucide="hash" style="width:11px;height:11px;stroke-width:2;vertical-align:middle;margin-right:4px;"></i>
+                    No. Antrian
+                </th>
+                <th>
+                    <i data-lucide="tag" style="width:11px;height:11px;stroke-width:2;vertical-align:middle;margin-right:4px;"></i>
+                    Layanan
+                </th>
+                <th>Deskripsi</th>
+                <th>
+                    <i data-lucide="clock" style="width:11px;height:11px;stroke-width:2;vertical-align:middle;margin-right:4px;"></i>
+                    Waktu Daftar
+                </th>
+                <th>Status</th>
+                <th>Aksi</th>
+            </tr>
+        </thead>
+        <tbody id="tabel-body">
+            <tr>
+                <td colspan="6" class="empty">
+                    <i data-lucide="loader" style="width:20px;height:20px;stroke-width:1.5;display:block;margin:0 auto 8px;"></i>
+                    Memuat antrian...
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="/static/js/antrian.js"></script>
+<script>lucide.createIcons();</script>
+{% endblock %}

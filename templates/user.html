@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Layar Pemohon · Sistem Layanan Kelurahan</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Noto+Serif:ital,wght@0,600;0,700;1,600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='images/favicon.ico') }}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', filename='images/favicon-32x32.png') }}">
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ url_for('static', filename='images/favicon-180x180.png') }}">
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+    <style>
+        /* Icon sizing */
+        .stage-chip svg { width:12px;height:12px;stroke-width:2.5; }
+        .btn svg        { width:16px;height:16px;stroke-width:2; }
+        .struk-row svg  { width:12px;height:12px;stroke-width:2;vertical-align:-1px;margin-right:4px;color:#9CA3AF; }
+        .syarat-header-icon svg { width:17px;height:17px;stroke-width:2; }
+
+        /* ===== TUTORIAL GRID ===== */
+        .tutorial-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 14px;
+            margin: 20px 0 28px;
+        }
+
+        .tutorial-card {
+            border-radius: 16px;
+            overflow: hidden;
+            border: 2px solid #E2E5E9;
+            background: #0A0D14;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            opacity: 0;
+            animation: cardIn 0.55s cubic-bezier(0.22,1,0.36,1) forwards;
+            transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+            cursor: default;
+            position: relative;
+        }
+        .tutorial-card:nth-child(1) { animation-delay: 0.05s; }
+        .tutorial-card:nth-child(2) { animation-delay: 0.12s; }
+        .tutorial-card:nth-child(3) { animation-delay: 0.19s; }
+        .tutorial-card:nth-child(4) { animation-delay: 0.26s; }
+        .tutorial-card:nth-child(5) { animation-delay: 0.33s; }
+        @keyframes cardIn {
+            from { opacity:0; transform:translateY(24px) scale(0.94); }
+            to   { opacity:1; transform:translateY(0) scale(1); }
+        }
+        .tutorial-card:hover {
+            transform: translateY(-6px) scale(1.02);
+            box-shadow: 0 16px 32px rgba(0,43,122,0.2);
+            border-color: #002B7A;
+        }
+        .tutorial-card::before {
+            content:'';position:absolute;inset:0;z-index:2;pointer-events:none;
+            background: linear-gradient(135deg,transparent 25%,rgba(255,255,255,0.07) 50%,transparent 75%);
+            transform: translateX(-100%);transition: none;
+        }
+        .tutorial-card:hover::before { transform:translateX(100%);transition:transform 0.6s ease; }
+
+        /* Gambar 1:1 */
+        .tutorial-card-img-wrap {
+            width:100%;aspect-ratio:1/1;overflow:hidden;
+            background:#0A0D14;position:relative;
+        }
+        .tutorial-card-img {
+            width:100%;height:100%;object-fit:cover;object-position:center;
+            display:block;transition:transform 0.4s ease;
+        }
+        .tutorial-card:hover .tutorial-card-img { transform:scale(1.07); }
+
+        /* Footer */
+        .tutorial-card-footer {
+            background: #002B7A;
+            padding: 10px 10px 13px;
+            text-align: center;
+            position: relative;
+        }
+        .tutorial-card-footer::before {
+            content:'';position:absolute;top:0;left:0;right:0;height:2px;
+            background: linear-gradient(90deg, #D4A017, #4D92E8, #D4A017);
+        }
+        .tc-pill {
+            display:inline-block;font-size:8px;font-weight:800;
+            letter-spacing:1.2px;text-transform:uppercase;
+            padding:2px 9px;border-radius:100px;margin-bottom:5px;
+        }
+        .tc-pill-layanan       { background:rgba(255,255,255,0.14);color:rgba(255,255,255,0.85);border:1px solid rgba(255,255,255,0.2); }
+        .tc-pill-konfirm-ya    { background:rgba(56,210,80,0.2);color:#86EFAC;border:1px solid rgba(56,210,80,0.35); }
+        .tc-pill-konfirm-tidak { background:rgba(248,113,113,0.2);color:#FCA5A5;border:1px solid rgba(248,113,113,0.35); }
+        .tc-nama {
+            display:block;font-size:16px;font-weight:800;
+            letter-spacing:2px;color:#fff;text-transform:uppercase;
+            line-height:1;margin-bottom:4px;
+        }
+        .tc-hint { font-size:10px;color:rgba(255,255,255,0.55);line-height:1.35; }
+
+        /* ===== KAMERA STREAM ===== */
+        .kamera-stream {
+            position:absolute;inset:0;width:100%;height:100%;
+            object-fit:cover;border-radius:inherit;display:none;
+        }
+
+        /* ===== KAMERA MINI ===== */
+        .kamera-mini {
+            position:relative;overflow:hidden;aspect-ratio:16/9;
+            border-radius:14px;background:#0A0D14;
+            border:1.5px solid #E2E5E9;margin-bottom:16px;
+            box-shadow:0 4px 16px rgba(0,0,0,0.1);
+        }
+        .kamera-mini img {
+            position:absolute;inset:0;width:100%;height:100%;
+            object-fit:cover;border-radius:inherit;
+        }
+        .kamera-mini-badge {
+            position:absolute;bottom:10px;left:12px;
+            display:flex;align-items:center;gap:6px;
+            background:rgba(0,0,0,0.65);backdrop-filter:blur(4px);
+            padding:5px 12px;border-radius:100px;
+            font-size:11px;font-weight:600;color:#fff;
+        }
+        .kamera-mini-dot {
+            width:6px;height:6px;background:#CC0000;
+            border-radius:50%;animation:livePulse 2s ease infinite;flex-shrink:0;
+        }
+
+        /* ===== KONFIRMASI INFO ===== */
+        .konfirm-info {
+            background:#EBF4FD;border:1.5px solid #A8CBEF;
+            border-radius:14px;padding:24px 28px;
+            text-align:center;margin-bottom:14px;
+        }
+        .konfirm-layanan-badge {
+            display:inline-flex;align-items:center;gap:7px;
+            background:#002B7A;color:#fff;font-size:12px;font-weight:700;
+            letter-spacing:1px;text-transform:uppercase;
+            padding:6px 16px;border-radius:8px;margin-bottom:14px;
+        }
+        .konfirm-info-question {
+            font-family:'Noto Serif',Georgia,serif;
+            font-size:clamp(20px,3.2vw,28px);font-weight:700;
+            color:#001A4D;line-height:1.25;margin-bottom:8px;
+        }
+        .konfirm-info-sub { font-size:14px;color:#454B56;line-height:1.6; }
+        .konfirm-info-sub strong { color:#001A4D; }
+
+        /* ===== DETEKSI AKTIF ===== */
+        .deteksi-aktif {
+            display:flex;align-items:center;justify-content:center;gap:8px;
+            background:#EBF4FD;border:1px solid #A8CBEF;border-radius:100px;
+            padding:8px 18px;margin-bottom:14px;
+            font-size:12px;font-weight:600;color:#003D9E;
+        }
+        .deteksi-aktif-dot {
+            width:7px;height:7px;background:#0052CC;
+            border-radius:50%;animation:livePulse 1.5s ease infinite;flex-shrink:0;
+        }
+    </style>
+</head>
+<body>
+<div class="user-screen">
+
+    <div class="user-topbar">
+        <div class="user-topbar-brand">
+            <div class="user-topbar-logo">
+                <i data-lucide="landmark" style="width:16px;height:16px;stroke-width:2;color:#001A4D;"></i>
+            </div>
+            <div>
+                <div class="user-topbar-name">Kelurahan Umban Sari</div>
+                <div class="user-topbar-sub">Sistem Layanan Mandiri Tunarungu</div>
+            </div>
+        </div>
+        <div class="user-topbar-time" id="topbar-time">--:-- WIB</div>
+    </div>
+
+    <main class="user-main">
+
+        <!-- ===== TAHAP 1: Tutorial ===== -->
+        <section id="tahap-welcome" class="user-stage active">
+            <div class="stage-chip"><i data-lucide="info"></i>&nbsp; SELAMAT DATANG</div>
+            <h1 class="stage-title">Pelajari Isyarat<br>Layanan</h1>
+            <p class="stage-desc">Sistem mengenali lima isyarat tangan berikut. Perhatikan setiap gerakan selama 30 detik sebelum memulai.</p>
+
+            <div class="tutorial-grid">
+                <div class="tutorial-card">
+                    <div class="tutorial-card-img-wrap">
+                        <img src="/static/images/KTP.png" alt="Isyarat KTP" class="tutorial-card-img">
+                    </div>
+                    <div class="tutorial-card-footer">
+                        <span class="tc-pill tc-pill-layanan">Layanan</span>
+                        <span class="tc-nama">KTP</span>
+                        <div class="tc-hint">Kepalan tangan penuh</div>
+                    </div>
+                </div>
+                <div class="tutorial-card">
+                    <div class="tutorial-card-img-wrap">
+                        <img src="/static/images/KK.png" alt="Isyarat KK" class="tutorial-card-img">
+                    </div>
+                    <div class="tutorial-card-footer">
+                        <span class="tc-pill tc-pill-layanan">Layanan</span>
+                        <span class="tc-nama">KK</span>
+                        <div class="tc-hint">Dua jari ke atas (V)</div>
+                    </div>
+                </div>
+                <div class="tutorial-card">
+                    <div class="tutorial-card-img-wrap">
+                        <img src="/static/images/AKTA.png" alt="Isyarat AKTA" class="tutorial-card-img">
+                    </div>
+                    <div class="tutorial-card-footer">
+                        <span class="tc-pill tc-pill-layanan">Layanan</span>
+                        <span class="tc-nama">AKTA</span>
+                        <div class="tc-hint">Ibu jari &amp; telunjuk menyentuh</div>
+                    </div>
+                </div>
+                <div class="tutorial-card">
+                    <div class="tutorial-card-img-wrap">
+                        <img src="/static/images/YA.png" alt="Isyarat YA" class="tutorial-card-img">
+                    </div>
+                    <div class="tutorial-card-footer">
+                        <span class="tc-pill tc-pill-konfirm-ya">Konfirmasi</span>
+                        <span class="tc-nama">YA</span>
+                        <div class="tc-hint">Jempol ke atas</div>
+                    </div>
+                </div>
+                <div class="tutorial-card">
+                    <div class="tutorial-card-img-wrap">
+                        <img src="/static/images/TIDAK.png" alt="Isyarat TIDAK" class="tutorial-card-img">
+                    </div>
+                    <div class="tutorial-card-footer">
+                        <span class="tc-pill tc-pill-konfirm-tidak">Konfirmasi</span>
+                        <span class="tc-nama">TIDAK</span>
+                        <div class="tc-hint">Jempol ke bawah</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="countdown-wrap">
+                <span class="countdown-label">Melanjutkan otomatis dalam</span>
+                <div class="countdown-bar-track">
+                    <div class="countdown-bar-fill" id="countdown-bar" style="width:100%"></div>
+                </div>
+                <span class="countdown-num"><span id="countdown">30</span></span>
+            </div>
+            <button onclick="nextTahap('deteksi')" class="btn btn-secondary" style="margin-top:8px;">
+                <i data-lucide="skip-forward"></i> Lewati Tutorial
+            </button>
+        </section>
+
+        <!-- ===== TAHAP 2: Deteksi Layanan ===== -->
+        <section id="tahap-deteksi" class="user-stage">
+            <div class="stage-chip"><i data-lucide="scan"></i>&nbsp; LANGKAH 1 DARI 3</div>
+            <h2 class="stage-title">Tunjukkan<br>Isyarat Layanan</h2>
+            <p class="stage-desc">Posisikan tangan di depan kamera dan tunjukkan isyarat <strong style="color:#002B7A;">KTP</strong>, <strong style="color:#002B7A;">KK</strong>, atau <strong style="color:#002B7A;">AKTA</strong>.</p>
+
+            <div class="kamera-wrap">
+                <img id="webcam-img" class="kamera-stream" alt="Kamera">
+                <div class="kamera-overlay" id="kamera-overlay">
+                    <div class="kamera-overlay-status">
+                        <div class="kamera-overlay-dot"></div>
+                        Kamera Aktif &mdash; Mendeteksi Isyarat KTP / KK / AKTA
+                    </div>
+                    <div class="kamera-overlay-hint">Confidence threshold 75% &middot; 10 frame stabil</div>
+                </div>
+                <div class="kamera-inner" id="kamera-inner">
+                    <div class="kamera-loading-ring"></div>
+                    <div class="kamera-status">Memulai Kamera...</div>
+                    <div class="kamera-hint-text">Menghubungkan ke sistem deteksi</div>
+                </div>
+                <div class="kamera-error" id="kamera-error">
+                    <i data-lucide="camera-off" style="width:36px;height:36px;stroke-width:1.25;color:rgba(255,255,255,0.45);"></i>
+                    <div class="kamera-error-title">Kamera Tidak Dapat Dibuka</div>
+                    <div class="kamera-error-desc">Pastikan webcam terhubung dan server berjalan.</div>
+                </div>
+            </div>
+
+            <div class="confidence-wrap">
+                <span class="confidence-label">Confidence</span>
+                <div class="confidence-bar-track">
+                    <div class="confidence-bar-fill" id="conf-bar" style="width:0%"></div>
+                </div>
+                <span class="confidence-val" id="conf-val">0%</span>
+            </div>
+        </section>
+
+        <!-- ===== TAHAP 3: Konfirmasi Layanan ===== -->
+        <section id="tahap-konfirmasi" class="user-stage">
+            <div class="stage-chip"><i data-lucide="help-circle"></i>&nbsp; LANGKAH 2 DARI 3 &middot; KONFIRMASI</div>
+            <h2 class="stage-title">Anda ingin<br>mengurus <span id="layanan-pilih">-</span>?</h2>
+
+            <div class="konfirm-info">
+                <div class="konfirm-layanan-badge">
+                    <i data-lucide="check-circle" style="width:14px;height:14px;stroke-width:2;"></i>
+                    <span id="konfirm-badge-label">-</span> terdeteksi
+                </div>
+                <div class="konfirm-info-question">Apakah ini layanan<br>yang Anda butuhkan?</div>
+                <div class="konfirm-info-sub">
+                    Tunjukkan isyarat <strong>YA</strong> untuk melanjutkan,
+                    atau <strong>TIDAK</strong> untuk kembali memilih layanan
+                </div>
+            </div>
+
+            <div class="deteksi-aktif">
+                <div class="deteksi-aktif-dot"></div>
+                Sistem mendeteksi isyarat YA atau TIDAK
+            </div>
+
+            <div class="kamera-mini">
+                <img id="webcam-img-konfirm" alt="Kamera konfirmasi">
+                <div class="kamera-mini-badge">
+                    <div class="kamera-mini-dot"></div>
+                    Tunjukkan isyarat YA atau TIDAK
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== TAHAP 4: Verifikasi Syarat ===== -->
+        <section id="tahap-syarat" class="user-stage">
+            <div class="stage-chip"><i data-lucide="clipboard-list"></i>&nbsp; LANGKAH 3 DARI 3 &middot; VERIFIKASI DOKUMEN</div>
+            <h2 class="stage-title">Persyaratan<br><span id="layanan-syarat">-</span></h2>
+            <p class="stage-desc">Pastikan seluruh dokumen berikut sudah Anda bawa sebelum melanjutkan.</p>
+
+            <div class="syarat-card">
+                <div class="syarat-header">
+                    <div class="syarat-header-icon">
+                        <i data-lucide="clipboard-check" style="color:#fff;"></i>
+                    </div>
+                    <div class="syarat-header-text">Daftar Dokumen yang Diperlukan</div>
+                </div>
+                <ul id="list-syarat" class="syarat-list"></ul>
+            </div>
+
+            <div class="deteksi-aktif" style="margin-top:16px;">
+                <div class="deteksi-aktif-dot"></div>
+                Tunjukkan <strong>YA</strong> jika dokumen lengkap &nbsp;&middot;&nbsp; <strong>TIDAK</strong> jika belum
+            </div>
+
+            <div class="kamera-mini">
+                <img id="webcam-img-syarat" alt="Kamera syarat">
+                <div class="kamera-mini-badge">
+                    <div class="kamera-mini-dot"></div>
+                    Tunjukkan isyarat YA atau TIDAK
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== TAHAP 5: Struk ===== -->
+        <section id="tahap-struk" class="user-stage">
+            <div class="struk-wrap">
+                <div class="struk">
+                    <div class="struk-topstrip"></div>
+                    <div class="struk-header-blue">
+                        <div class="struk-inst-label">Kelurahan Umban Sari &middot; Pekanbaru</div>
+                        <div class="struk-inst-name">Tanda Terima Antrian</div>
+                        <div class="struk-inst-sub">Sistem Layanan Mandiri Tunarungu</div>
+                    </div>
+                    <div class="struk-body">
+                        <div class="struk-nomor-section">
+                            <div class="struk-nomor-label">NOMOR ANTRIAN ANDA</div>
+                            <div class="struk-nomor" id="struk-nomor">A001</div>
+                            <div class="struk-layanan-badge badge-KTP" id="struk-badge">KTP</div>
+                        </div>
+                        <div class="struk-rows">
+                            <div class="struk-row">
+                                <span class="struk-row-key"><i data-lucide="briefcase"></i> Layanan</span>
+                                <span class="struk-row-val" id="struk-deskripsi">-</span>
+                            </div>
+                            <div class="struk-row">
+                                <span class="struk-row-key"><i data-lucide="clock"></i> Waktu</span>
+                                <span class="struk-row-val" id="struk-waktu">-</span>
+                            </div>
+                            <div class="struk-row">
+                                <span class="struk-row-key"><i data-lucide="map-pin"></i> Lokasi</span>
+                                <span class="struk-row-val">Loket Pelayanan Umum</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="struk-footer-note">Silakan menuju loket petugas dan tunjukkan struk ini.</div>
+                    <div class="struk-bottomstrip"></div>
+                </div>
+                <button onclick="resetSistem()" class="btn btn-primary btn-lg" style="width:100%;justify-content:center;gap:10px;margin-top:16px;">
+                    <i data-lucide="rotate-ccw"></i> Selesai &middot; Kembali ke Awal
+                </button>
+            </div>
+        </section>
+
+        <!-- ===== TAHAP: Dokumen Belum Lengkap ===== -->
+        <section id="tahap-tidak-lengkap" class="user-stage">
+            <div class="alert-kurang">
+                <div class="alert-kurang-icon">
+                    <i data-lucide="alert-triangle" style="width:52px;height:52px;stroke-width:1.25;color:#CC0000;"></i>
+                </div>
+                <div class="alert-kurang-title">Dokumen Belum Lengkap</div>
+                <div class="alert-kurang-desc">Mohon lengkapi seluruh persyaratan terlebih dahulu sebelum mengajukan permohonan layanan.</div>
+            </div>
+            <div style="text-align:center;margin-top:24px;">
+                <button onclick="resetSistem()" class="btn btn-primary btn-lg" style="gap:10px;">
+                    <i data-lucide="arrow-left"></i> Kembali ke Awal
+                </button>
+            </div>
+        </section>
+
+    </main>
+</div>
+
+<script src="/static/js/app.js"></script>
+<script>
+lucide.createIcons();
+function updateClock() {
+    const now = new Date();
+    const h = String(now.getHours()).padStart(2,'0');
+    const m = String(now.getMinutes()).padStart(2,'0');
+    document.getElementById('topbar-time').textContent = h + ':' + m + ' WIB';
+}
+updateClock();
+setInterval(updateClock, 60000);
+</script>
+</body>
+</html>

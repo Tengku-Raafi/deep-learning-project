@@ -1,0 +1,1241 @@
+/* ============================================================
+   SISTEM LAYANAN MANDIRI KELURAHAN
+   Petugas Dashboard CSS — Pemerintah Republik Indonesia
+   ============================================================ */
+
+/* ============ LAYOUT UTAMA ============ */
+.petugas-app {
+    display: flex;
+    min-height: 100vh;
+    background: #F0F2F5;
+    color: #1A1D23;
+}
+
+/* ============================================================
+   SIDEBAR
+   ============================================================ */
+.sidebar {
+    width: 260px;
+    background: #002B7A;
+    display: flex;
+    flex-direction: column;
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    flex-shrink: 0;
+    z-index: 100;
+}
+
+/* Brand area atas */
+.sidebar-brand {
+    padding: 20px 20px 18px;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.sidebar-brand-logo {
+    width: 40px;
+    height: 40px;
+    background: #D4A017;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Noto Serif', Georgia, serif;
+    font-size: 18px;
+    font-weight: 700;
+    color: #001A4D;
+    flex-shrink: 0;
+}
+
+.sidebar-brand-info { min-width: 0; }
+
+.sidebar-brand-sup {
+    font-size: 9px;
+    letter-spacing: 2px;
+    color: rgba(255,255,255,0.5);
+    text-transform: uppercase;
+    font-weight: 600;
+    margin-bottom: 1px;
+}
+
+.sidebar-brand-name {
+    font-size: 14px;
+    font-weight: 700;
+    color: #fff;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Flag bar merah putih di bawah brand */
+.sidebar-flag {
+    display: flex;
+    height: 3px;
+}
+
+.sidebar-flag-red   { background: #CC0000; flex: 1; }
+.sidebar-flag-white { background: #FFFFFF; flex: 1; }
+
+/* Nav items */
+.sidebar-nav {
+    flex: 1;
+    padding: 16px 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.sidebar-section-label {
+    font-size: 9px;
+    letter-spacing: 2px;
+    color: rgba(255,255,255,0.3);
+    text-transform: uppercase;
+    font-weight: 600;
+    padding: 12px 8px 6px;
+}
+
+.nav-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 11px 14px;
+    color: rgba(255,255,255,0.65);
+    text-decoration: none;
+    font-size: 13.5px;
+    font-weight: 500;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+    position: relative;
+    border: 1px solid transparent;
+}
+
+.nav-item:hover {
+    background: rgba(255,255,255,0.07);
+    color: #fff;
+    border-color: rgba(255,255,255,0.08);
+}
+
+.nav-item.active {
+    background: rgba(255,255,255,0.12);
+    color: #fff;
+    border-color: rgba(255,255,255,0.15);
+}
+
+.nav-item.active::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 8px; bottom: 8px;
+    width: 3px;
+    background: #D4A017;
+    border-radius: 0 2px 2px 0;
+    margin-left: -1px;
+}
+
+.nav-icon {
+    font-size: 18px;
+    width: 22px;
+    text-align: center;
+    flex-shrink: 0;
+    opacity: 0.8;
+}
+
+.nav-item.active .nav-icon,
+.nav-item:hover .nav-icon { opacity: 1; }
+
+.nav-label { flex: 1; }
+
+.nav-badge {
+    background: #D4A017;
+    color: #001A4D;
+    font-size: 10px;
+    font-weight: 700;
+    padding: 2px 7px;
+    border-radius: 100px;
+    min-width: 20px;
+    text-align: center;
+    line-height: 1.4;
+}
+
+/* User info bawah sidebar */
+.sidebar-user {
+    margin: 0 12px 12px;
+    padding: 12px 14px;
+    background: rgba(255,255,255,0.07);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border: 1px solid rgba(255,255,255,0.08);
+}
+
+.user-avatar {
+    width: 36px;
+    height: 36px;
+    background: #D4A017;
+    color: #001A4D;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Noto Serif', Georgia, serif;
+    font-weight: 700;
+    font-size: 15px;
+    flex-shrink: 0;
+}
+
+.user-info { flex: 1; min-width: 0; }
+
+.user-name {
+    font-size: 13px;
+    font-weight: 600;
+    color: #fff;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.user-role {
+    font-size: 10px;
+    color: rgba(255,255,255,0.45);
+    letter-spacing: 0.5px;
+    margin-top: 1px;
+}
+
+.sidebar-footer {
+    padding: 12px 20px 16px;
+    border-top: 1px solid rgba(255,255,255,0.07);
+}
+
+.sidebar-date {
+    font-size: 11px;
+    color: rgba(255,255,255,0.4);
+    margin-bottom: 8px;
+}
+
+.logout-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    color: rgba(255,255,255,0.4);
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.2s;
+}
+
+.logout-btn:hover { color: #ff6b6b; }
+
+.sidebar-version {
+    font-size: 10px;
+    color: rgba(255,255,255,0.2);
+    margin-top: 6px;
+}
+
+/* ============================================================
+   MAIN CONTENT
+   ============================================================ */
+.petugas-content {
+    flex: 1;
+    padding: 32px 36px;
+    overflow-y: auto;
+    min-width: 0;
+}
+
+/* Page header */
+.page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 28px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #E2E5E9;
+}
+
+.page-eyebrow {
+    font-size: 10px;
+    letter-spacing: 2px;
+    color: #0052CC;
+    font-weight: 700;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+}
+
+.page-title {
+    font-family: 'Noto Serif', Georgia, serif;
+    font-size: 32px;
+    font-weight: 700;
+    color: #001A4D;
+    letter-spacing: -0.5px;
+    line-height: 1.2;
+}
+
+.page-meta {
+    font-size: 13px;
+    color: #6B7280;
+    text-align: right;
+}
+
+/* ============================================================
+   DASHBOARD STATS
+   ============================================================ */
+.dash-stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+.dash-stat {
+    background: #fff;
+    border-radius: 12px;
+    padding: 22px 24px;
+    border: 1px solid #E2E5E9;
+    border-top: 4px solid;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+    opacity: 0;
+    animation: slideUp 0.5s ease forwards;
+}
+
+.dash-stat:nth-child(1) { animation-delay: 0.05s; }
+.dash-stat:nth-child(2) { animation-delay: 0.1s; }
+.dash-stat:nth-child(3) { animation-delay: 0.15s; }
+.dash-stat:nth-child(4) { animation-delay: 0.2s; }
+
+@keyframes slideUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+.dash-stat-primary { border-top-color: #0052CC; }
+.dash-stat-warning { border-top-color: #D97706; }
+.dash-stat-info    { border-top-color: #2563EB; }
+.dash-stat-success { border-top-color: #16A34A; }
+
+.dash-stat-label {
+    font-size: 11px;
+    letter-spacing: 1.5px;
+    color: #6B7280;
+    text-transform: uppercase;
+    font-weight: 600;
+    margin-bottom: 12px;
+}
+
+.dash-stat-value {
+    font-family: 'Noto Serif', Georgia, serif;
+    font-size: 48px;
+    font-weight: 700;
+    color: #001A4D;
+    line-height: 1;
+    margin-bottom: 8px;
+}
+
+.dash-stat-trend {
+    font-size: 11px;
+    color: #9CA3AF;
+    letter-spacing: 0.5px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.dash-stat-trend.up   { color: #16A34A; }
+.dash-stat-trend.down { color: #CC0000; }
+
+/* ============================================================
+   DASHBOARD GRID
+   ============================================================ */
+.dash-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.dash-card {
+    background: #fff;
+    border-radius: 12px;
+    padding: 24px;
+    border: 1px solid #E2E5E9;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+    animation: slideUp 0.5s 0.25s ease backwards;
+}
+
+.dash-card-head {
+    margin-bottom: 20px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid #F1F3F5;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.dash-card-title {
+    font-size: 16px;
+    font-weight: 700;
+    color: #1A1D23;
+}
+
+.dash-card-sub {
+    font-size: 12px;
+    color: #9CA3AF;
+    margin-top: 2px;
+}
+
+/* Layanan bar chart */
+.layanan-bars {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.layanan-bar { }
+
+.bar-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 6px;
+}
+
+.bar-name {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: #454B56;
+}
+
+.bar-value {
+    font-family: 'Noto Serif', Georgia, serif;
+    font-size: 24px;
+    font-weight: 700;
+}
+
+.bar-track {
+    height: 8px;
+    background: #F1F3F5;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.bar-fill {
+    height: 100%;
+    border-radius: 4px;
+    transition: width 1s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Color coding layanan */
+.layanan-bar-ktp  .bar-fill  { background: #0052CC; }
+.layanan-bar-ktp  .bar-value { color: #0047B3; }
+.layanan-bar-kk   .bar-fill  { background: #16A34A; }
+.layanan-bar-kk   .bar-value { color: #0F6B2F; }
+.layanan-bar-akta .bar-fill  { background: #D97706; }
+.layanan-bar-akta .bar-value { color: #92400E; }
+
+/* Active antrian list di dashboard */
+.active-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    max-height: 280px;
+    overflow-y: auto;
+}
+
+.active-item {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 10px 14px;
+    background: #F8F9FA;
+    border-radius: 8px;
+    border-left: 3px solid;
+    transition: background 0.2s;
+}
+
+.active-item:hover { background: #F1F3F5; }
+
+.active-item.layanan-KTP  { border-left-color: #0052CC; }
+.active-item.layanan-KK   { border-left-color: #16A34A; }
+.active-item.layanan-AKTA { border-left-color: #D97706; }
+
+.active-nomor {
+    font-family: 'Noto Serif', Georgia, serif;
+    font-size: 20px;
+    font-weight: 700;
+    color: #002B7A;
+    min-width: 52px;
+}
+
+.active-info { flex: 1; }
+
+.active-layanan {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    margin-bottom: 1px;
+}
+
+.active-layanan.KTP  { color: #0047B3; }
+.active-layanan.KK   { color: #0F6B2F; }
+.active-layanan.AKTA { color: #92400E; }
+
+.active-time {
+    font-size: 11px;
+    color: #9CA3AF;
+}
+
+.card-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    margin-top: 16px;
+    font-size: 12px;
+    letter-spacing: 1px;
+    color: #0052CC;
+    text-decoration: none;
+    font-weight: 600;
+    text-transform: uppercase;
+    transition: gap 0.2s;
+}
+
+.card-cta:hover { gap: 8px; }
+
+.empty-state {
+    text-align: center;
+    padding: 36px 20px;
+    color: #9CA3AF;
+    font-size: 14px;
+}
+
+.empty-state-icon { font-size: 32px; margin-bottom: 8px; opacity: 0.4; }
+
+/* ============================================================
+   TABEL ANTRIAN
+   ============================================================ */
+.tabel-wrapper {
+    background: #fff;
+    border-radius: 12px;
+    border: 1px solid #E2E5E9;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+    overflow: hidden;
+}
+
+.tabel-header-bar {
+    padding: 18px 24px;
+    border-bottom: 1px solid #F1F3F5;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.tabel-title {
+    font-size: 16px;
+    font-weight: 700;
+    color: #1A1D23;
+}
+
+.tabel-sub {
+    font-size: 12px;
+    color: #9CA3AF;
+    margin-top: 2px;
+}
+
+.filter-bar {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+}
+
+.filter-btn {
+    padding: 6px 14px;
+    background: transparent;
+    border: 1px solid #E2E5E9;
+    border-radius: 6px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-transform: uppercase;
+    font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+    color: #6B7280;
+}
+
+.filter-btn.active {
+    background: #002B7A;
+    color: #fff;
+    border-color: #002B7A;
+}
+
+.filter-btn:not(.active):hover {
+    border-color: #0052CC;
+    color: #0052CC;
+}
+
+.tabel-antrian {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.tabel-antrian thead {
+    background: #F8F9FA;
+}
+
+.tabel-antrian th {
+    text-align: left;
+    padding: 12px 20px;
+    font-size: 10px;
+    letter-spacing: 1.5px;
+    color: #6B7280;
+    text-transform: uppercase;
+    font-weight: 700;
+    border-bottom: 1px solid #E2E5E9;
+}
+
+.tabel-antrian td {
+    padding: 16px 20px;
+    border-bottom: 1px solid #F1F3F5;
+    font-size: 13px;
+    vertical-align: middle;
+}
+
+.tabel-antrian tbody tr {
+    transition: background 0.15s;
+}
+
+.tabel-antrian tbody tr:hover { background: #F8F9FA; }
+.tabel-antrian tbody tr:last-child td { border-bottom: none; }
+
+.nomor-cell {
+    font-family: 'Noto Serif', Georgia, serif;
+    font-size: 22px;
+    font-weight: 700;
+    color: #002B7A;
+}
+
+/* Layanan badges */
+.layanan-badge {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 4px;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+}
+
+.layanan-badge.layanan-KTP  { background: #DBEAFE; color: #1E40AF; }
+.layanan-badge.layanan-KK   { background: #DCFCE7; color: #166534; }
+.layanan-badge.layanan-AKTA { background: #FEF3C7; color: #92400E; }
+
+/* Status badges */
+.status-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 4px 10px;
+    border-radius: 100px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+.status-badge::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.status-menunggu { background: #FEF3C7; color: #92400E; }
+.status-menunggu::before { background: #D97706; }
+
+.status-dilayani { background: #DBEAFE; color: #1E40AF; }
+.status-dilayani::before { background: #2563EB; animation: blink 1.5s ease infinite; }
+
+.status-selesai { background: #DCFCE7; color: #166534; }
+.status-selesai::before { background: #16A34A; }
+
+@keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+}
+
+/* Aksi buttons */
+.btn-aksi {
+    padding: 6px 14px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    border: 1.5px solid;
+    background: transparent;
+    cursor: pointer;
+    font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+    border-radius: 6px;
+    transition: all 0.2s;
+    text-transform: uppercase;
+}
+
+.btn-layani { border-color: #2563EB; color: #2563EB; }
+.btn-layani:hover { background: #2563EB; color: #fff; }
+
+.btn-selesai-act { border-color: #16A34A; color: #16A34A; }
+.btn-selesai-act:hover { background: #16A34A; color: #fff; }
+
+.empty {
+    text-align: center;
+    padding: 52px !important;
+    color: #9CA3AF;
+    font-size: 14px;
+}
+
+/* Highlight baris baru */
+@keyframes highlight {
+    0%  { background: #DBEAFE; }
+    100% { background: transparent; }
+}
+
+.row-new { animation: highlight 3s ease; }
+
+/* ============================================================
+   LAPORAN BULANAN
+   ============================================================ */
+.laporan-filter {
+    background: #fff;
+    border: 1px solid #E2E5E9;
+    border-radius: 12px;
+    padding: 20px 24px;
+    margin-bottom: 20px;
+    display: flex;
+    gap: 16px;
+    align-items: flex-end;
+    flex-wrap: wrap;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+}
+
+.filter-group {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.filter-label {
+    font-size: 10px;
+    letter-spacing: 1.5px;
+    color: #6B7280;
+    text-transform: uppercase;
+    font-weight: 700;
+}
+
+.filter-select {
+    padding: 9px 14px;
+    border: 1px solid #E2E5E9;
+    border-radius: 8px;
+    background: #F8F9FA;
+    font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+    font-size: 13px;
+    color: #1A1D23;
+    cursor: pointer;
+    min-width: 150px;
+    transition: border-color 0.2s;
+}
+
+.filter-select:focus {
+    outline: none;
+    border-color: #0052CC;
+    background: #fff;
+}
+
+.btn-cetak {
+    padding: 9px 20px;
+    background: #002B7A;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    transition: background 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.btn-cetak:hover { background: #001A4D; }
+
+/* Summary cards laporan */
+.laporan-summary {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 14px;
+    margin-bottom: 24px;
+}
+
+.sum-card {
+    background: #fff;
+    padding: 18px 20px;
+    border-radius: 10px;
+    border: 1px solid #E2E5E9;
+    border-left: 4px solid;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+
+.sum-card.sum-ktp   { border-left-color: #0052CC; }
+.sum-card.sum-kk    { border-left-color: #16A34A; }
+.sum-card.sum-akta  { border-left-color: #D97706; }
+.sum-card.sum-total { border-left-color: #002B7A; }
+
+.sum-label {
+    font-size: 10px;
+    letter-spacing: 1.5px;
+    color: #6B7280;
+    text-transform: uppercase;
+    font-weight: 700;
+    margin-bottom: 6px;
+}
+
+.sum-value {
+    font-family: 'Noto Serif', Georgia, serif;
+    font-size: 36px;
+    font-weight: 700;
+    color: #001A4D;
+    line-height: 1;
+}
+
+/* ============================================================
+   LOGIN PAGE
+   ============================================================ */
+.login-screen {
+    min-height: 100vh;
+    background: #F0F2F5;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Gov topbar untuk login */
+.login-topbar {
+    background: #002B7A;
+    border-bottom: 3px solid #CC0000;
+    padding: 10px 24px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.login-flag {
+    display: flex;
+    flex-direction: column;
+    width: 22px;
+    height: 14px;
+    overflow: hidden;
+    border-radius: 2px;
+    border: 1px solid rgba(255,255,255,0.2);
+    flex-shrink: 0;
+}
+
+.login-flag-red   { background: #CC0000; flex: 1; }
+.login-flag-white { background: #fff; flex: 1; }
+
+.login-topbar-text {
+    font-size: 12px;
+    font-weight: 600;
+    color: rgba(255,255,255,0.85);
+    letter-spacing: 0.3px;
+}
+
+/* Main login area */
+.login-main {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 48px 24px;
+}
+
+.login-card {
+    width: 100%;
+    max-width: 420px;
+    background: #fff;
+    border-radius: 16px;
+    border: 1px solid #E2E5E9;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+    overflow: hidden;
+}
+
+.login-card-header {
+    background: #002B7A;
+    padding: 28px 32px;
+    text-align: center;
+}
+
+.login-card-logo {
+    width: 60px;
+    height: 60px;
+    background: #D4A017;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Noto Serif', Georgia, serif;
+    font-size: 26px;
+    font-weight: 700;
+    color: #001A4D;
+    margin: 0 auto 14px;
+}
+
+.login-card-title {
+    font-family: 'Noto Serif', Georgia, serif;
+    font-size: 22px;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 4px;
+}
+
+.login-card-sub {
+    font-size: 12px;
+    color: rgba(255,255,255,0.6);
+    letter-spacing: 0.3px;
+}
+
+.login-card-body {
+    padding: 28px 32px;
+}
+
+/* Error message */
+.login-error {
+    background: #FFF2F2;
+    border: 1px solid #FFB3B3;
+    border-radius: 8px;
+    color: #8B0000;
+    padding: 12px 16px;
+    margin-bottom: 18px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 13px;
+    font-weight: 500;
+}
+
+.error-icon {
+    font-size: 18px;
+    flex-shrink: 0;
+}
+
+/* Form */
+.form-group { margin-bottom: 16px; }
+
+.form-label {
+    display: block;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    color: #454B56;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+}
+
+.form-input {
+    width: 100%;
+    padding: 12px 16px;
+    background: #F8F9FA;
+    border: 1.5px solid #E2E5E9;
+    border-radius: 8px;
+    color: #1A1D23;
+    font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+    font-size: 14px;
+    transition: all 0.2s;
+}
+
+.form-input:focus {
+    outline: none;
+    border-color: #0052CC;
+    background: #fff;
+    box-shadow: 0 0 0 3px rgba(0,82,204,0.12);
+}
+
+.form-input::placeholder { color: #9CA3AF; }
+
+.login-submit {
+    width: 100%;
+    padding: 14px;
+    background: #002B7A;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.2s;
+    margin-top: 8px;
+    letter-spacing: 0.3px;
+}
+
+.login-submit:hover { background: #001A4D; }
+.login-submit:active { transform: scale(0.99); }
+
+/* Login hint (dev) */
+.login-hint {
+    margin-top: 16px;
+    padding: 12px 16px;
+    background: #EBF4FD;
+    border: 1px solid #A8CBEF;
+    border-radius: 8px;
+    font-size: 12px;
+    color: #1E4E8C;
+    line-height: 1.7;
+}
+
+.login-hint code {
+    background: rgba(0,71,179,0.12);
+    color: #003D9E;
+    padding: 1px 6px;
+    border-radius: 4px;
+    font-family: 'Courier New', monospace;
+    font-size: 11px;
+}
+
+.login-back {
+    display: block;
+    text-align: center;
+    margin-top: 14px;
+    font-size: 12px;
+    color: #9CA3AF;
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.2s;
+}
+
+.login-back:hover { color: #0052CC; }
+
+/* ============================================================
+   PRINT STYLES
+   ============================================================ */
+@media print {
+    .sidebar,
+    .filter-bar,
+    .laporan-filter .btn-cetak,
+    .btn-aksi,
+    .page-meta { display: none !important; }
+
+    .petugas-content {
+        padding: 20px;
+    }
+
+    body, .petugas-app {
+        background: #fff !important;
+    }
+
+    .page-header {
+        border-bottom: 2px solid #002B7A;
+        padding-bottom: 12px;
+    }
+
+    .tabel-wrapper,
+    .dash-card,
+    .sum-card {
+        box-shadow: none !important;
+        border: 1px solid #ddd !important;
+        page-break-inside: avoid;
+    }
+
+    .dash-stat { page-break-inside: avoid; }
+}
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+@media (max-width: 1200px) {
+    .dash-stats { grid-template-columns: repeat(2, 1fr); }
+    .laporan-summary { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 1024px) {
+    .dash-grid { grid-template-columns: 1fr; }
+    .petugas-content { padding: 24px 20px; }
+}
+
+@media (max-width: 768px) {
+    .sidebar { width: 64px; }
+
+    .sidebar-brand-info,
+    .sidebar-brand-sup,
+    .nav-label,
+    .nav-badge,
+    .user-info,
+    .sidebar-date,
+    .sidebar-version,
+    .logout-btn span { display: none; }
+
+    .sidebar-brand { padding: 16px 10px; justify-content: center; }
+    .sidebar-brand-logo { margin: 0; }
+    .sidebar-section-label { display: none; }
+    .nav-item { justify-content: center; padding: 12px 8px; }
+    .nav-icon { width: auto; font-size: 20px; }
+    .sidebar-user { padding: 10px; justify-content: center; }
+    .sidebar-footer { padding: 10px; text-align: center; }
+
+    .petugas-content { padding: 16px; min-width: 0; max-width: calc(100% - 64px); }
+    .dash-stats { grid-template-columns: 1fr; }
+    .laporan-summary { grid-template-columns: 1fr 1fr; }
+
+    .page-header { flex-direction: column; align-items: flex-start; gap: 8px; }
+    .page-meta { text-align: left; }
+}
+
+/* Status dibatalkan */
+.status-dibatalkan {
+    background: #FFF2F2;
+    color: #8B0000;
+}
+.status-dibatalkan::before {
+    background: #CC0000;
+}
+
+/* ============================================================
+   MODAL KONFIRMASI — Custom Alert
+   ============================================================ */
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 15, 40, 0.55);
+    backdrop-filter: blur(4px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    padding: 24px;
+    opacity: 0;
+    animation: modalFadeIn 0.2s ease forwards;
+}
+
+@keyframes modalFadeIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+.modal-box {
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 24px 48px rgba(0,0,0,0.18), 0 0 0 1px rgba(0,0,0,0.06);
+    width: 100%;
+    max-width: 400px;
+    overflow: hidden;
+    transform: translateY(20px) scale(0.97);
+    animation: modalSlideIn 0.25s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+@keyframes modalSlideIn {
+    from { transform: translateY(20px) scale(0.97); }
+    to   { transform: translateY(0) scale(1); }
+}
+
+.modal-icon-wrap {
+    padding: 28px 28px 0;
+    display: flex;
+    justify-content: center;
+}
+
+.modal-icon {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-icon.danger  { background: #FFF2F2; color: #CC0000; }
+.modal-icon.warning { background: #FEF3C7; color: #D97706; }
+.modal-icon.info    { background: #EBF4FD; color: #0052CC; }
+
+.modal-icon svg { width: 26px; height: 26px; stroke-width: 1.75; }
+
+.modal-body {
+    padding: 16px 28px 24px;
+    text-align: center;
+}
+
+.modal-title {
+    font-size: 17px;
+    font-weight: 700;
+    color: #1A1D23;
+    margin-bottom: 8px;
+    font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+}
+
+.modal-desc {
+    font-size: 13px;
+    color: #6B7280;
+    line-height: 1.6;
+}
+
+.modal-highlight {
+    display: inline-block;
+    background: #F0F2F5;
+    color: #1A1D23;
+    font-weight: 700;
+    padding: 2px 10px;
+    border-radius: 6px;
+    font-size: 13px;
+    margin: 4px 0;
+    font-family: 'Courier New', monospace;
+}
+
+.modal-actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    padding: 0 28px 24px;
+}
+
+.modal-btn {
+    padding: 12px 16px;
+    border-radius: 8px;
+    font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    border: none;
+    transition: all 0.15s ease;
+    letter-spacing: 0.2px;
+}
+
+.modal-btn:active { transform: scale(0.98); }
+
+.modal-btn-cancel {
+    background: #F1F3F5;
+    color: #454B56;
+}
+
+.modal-btn-cancel:hover { background: #E2E5E9; }
+
+.modal-btn-confirm-danger {
+    background: #CC0000;
+    color: #fff;
+}
+
+.modal-btn-confirm-danger:hover { background: #AA0000; }
+
+.modal-btn-confirm-warning {
+    background: #D97706;
+    color: #fff;
+}
+
+.modal-btn-confirm-warning:hover { background: #B45309; }
+
+.modal-btn-confirm-info {
+    background: #0052CC;
+    color: #fff;
+}
+
+.modal-btn-confirm-info:hover { background: #003D9E; }

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Petugas</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body class="petugas-screen">
+
+    <header class="petugas-header">
+        <div class="petugas-header-inner">
+            <div class="petugas-brand">
+                <p class="petugas-eyebrow">PEMERINTAH KELURAHAN</p>
+                <h1 class="petugas-title">Dashboard Petugas</h1>
+            </div>
+            <div class="petugas-meta">
+                <p class="petugas-date" id="tanggal-now">—</p>
+                <p class="petugas-total">Total Antrian Hari Ini: <strong id="total-antrian">0</strong></p>
+            </div>
+        </div>
+    </header>
+
+    <main class="petugas-main">
+
+        <section class="stats-grid">
+            <article class="stat-card stat-menunggu">
+                <p class="stat-label">Menunggu</p>
+                <p class="stat-value" id="stat-menunggu">0</p>
+                <div class="stat-deco"></div>
+            </article>
+            <article class="stat-card stat-dilayani">
+                <p class="stat-label">Sedang Dilayani</p>
+                <p class="stat-value" id="stat-dilayani">0</p>
+                <div class="stat-deco"></div>
+            </article>
+            <article class="stat-card stat-selesai">
+                <p class="stat-label">Selesai</p>
+                <p class="stat-value" id="stat-selesai">0</p>
+                <div class="stat-deco"></div>
+            </article>
+        </section>
+
+        <section class="tabel-section">
+            <div class="tabel-header">
+                <h2 class="tabel-title">Daftar Antrian</h2>
+                <p class="tabel-sub">Diperbarui otomatis setiap 3 detik</p>
+            </div>
+
+            <table class="tabel-antrian">
+                <thead>
+                    <tr>
+                        <th>No. Antrian</th>
+                        <th>Layanan</th>
+                        <th>Deskripsi</th>
+                        <th>Waktu Daftar</th>
+                        <th>Status</th>
+                        <th>Aksi</th>
+                    </tr>
+                </thead>
+                <tbody id="tabel-body">
+                    <tr><td colspan="6" class="empty">Belum ada antrian hari ini</td></tr>
+                </tbody>
+            </table>
+        </section>
+
+    </main>
+
+    <script src="/static/js/petugas.js"></script>
+</body>
+</html>

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistem Layanan Mandiri Kelurahan</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Noto+Serif:ital,wght@0,600;0,700;1,600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/style.css">
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+    <style>
+        .info-icon svg { width: 28px; height: 28px; stroke-width: 1.5; }
+        .btn svg { width: 18px; height: 18px; stroke-width: 2; }
+        .landing-garuda svg { width: 28px; height: 28px; stroke-width: 1.5; color: var(--primary-900, #001A4D); }
+    </style>
+</head>
+<body>
+
+<div class="landing">
+    <!-- Topbar -->
+    <div class="gov-topbar">
+        <div class="gov-flag">
+            <div class="gov-flag-red"></div>
+            <div class="gov-flag-white"></div>
+        </div>
+        <span class="gov-topbar-text">Pemerintah Republik Indonesia</span>
+        <span class="gov-topbar-sep">·</span>
+        <span class="gov-topbar-inst">Kelurahan Umban Sari, Kota Pekanbaru</span>
+    </div>
+
+    <!-- Hero -->
+    <div class="landing-hero">
+        <div class="landing-logo-wrap">
+            <div class="landing-garuda">
+                <i data-lucide="landmark"></i>
+            </div>
+            <div class="landing-inst-info">
+                <div class="landing-inst-label">Pemerintah Kota Pekanbaru</div>
+                <div class="landing-inst-name">Kelurahan Umban Sari</div>
+            </div>
+        </div>
+
+        <p class="landing-tagline">Sistem Layanan Mandiri</p>
+        <div class="landing-divider-h"></div>
+        <h1 class="landing-title">Pelayanan Warga<br>Tanpa Hambatan</h1>
+        <p class="landing-subtitle">
+            Dirancang khusus untuk warga tunarungu agar dapat mengurus
+            dokumen kependudukan secara mandiri dan bermartabat.
+        </p>
+
+        <div class="landing-actions">
+            <a href="/user" class="btn btn-primary btn-xl">
+                <span style="display:flex;align-items:center;gap:10px;">
+                    <i data-lucide="hand"></i> Mulai Layanan (Pemohon)
+                </span>
+                <i data-lucide="arrow-right"></i>
+            </a>
+            <a href="/petugas" class="btn btn-secondary btn-xl">
+                <span style="display:flex;align-items:center;gap:10px;">
+                    <i data-lucide="shield"></i> Portal Petugas
+                </span>
+                <i data-lucide="arrow-right"></i>
+            </a>
+        </div>
+    </div>
+
+    <!-- Info cards -->
+    <div class="landing-info">
+        <div class="info-item">
+            <div class="info-icon">
+                <i data-lucide="credit-card"></i>
+            </div>
+            <div class="info-title">KTP Elektronik</div>
+            <div class="info-desc">Pembuatan & perubahan data kependudukan</div>
+        </div>
+        <div class="info-item">
+            <div class="info-icon">
+                <i data-lucide="users"></i>
+            </div>
+            <div class="info-title">Kartu Keluarga</div>
+            <div class="info-desc">Penerbitan & pembaruan data keluarga</div>
+        </div>
+        <div class="info-item">
+            <div class="info-icon">
+                <i data-lucide="file-text"></i>
+            </div>
+            <div class="info-title">Akta Kelahiran</div>
+            <div class="info-desc">Pengurusan akta & catatan sipil</div>
+        </div>
+    </div>
+
+    <footer class="landing-footer">
+        © 2026 Politeknik Caltex Riau · Teknik Informatika · Kelompok 8
+    </footer>
+</div>
+
+<script>lucide.createIcons();</script>
+</body>
+</html>

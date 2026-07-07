@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Petugas · Sistem Layanan Kelurahan</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Noto+Serif:ital,wght@0,600;0,700;1,600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="stylesheet" href="/static/css/petugas.css">
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='images/favicon.ico') }}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', filename='images/favicon-32x32.png') }}">
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ url_for('static', filename='images/favicon-180x180.png') }}">
+</head>
+<body>
+
+<div class="login-screen">
+    <!-- Topbar gov RI -->
+    <div class="login-topbar">
+        <div class="login-flag">
+            <div class="login-flag-red"></div>
+            <div class="login-flag-white"></div>
+        </div>
+        <span class="login-topbar-text">Pemerintah Republik Indonesia · Kelurahan Umban Sari, Pekanbaru</span>
+    </div>
+
+    <!-- Main -->
+    <div class="login-main">
+        <div class="login-card">
+            <div class="login-card-header">
+                <div class="login-card-logo">⚖</div>
+                <div class="login-card-title">Portal Petugas</div>
+                <div class="login-card-sub">Sistem Layanan Mandiri Kelurahan</div>
+            </div>
+
+            <div class="login-card-body">
+                <form method="POST" action="/login">
+                    {% if error %}
+                    <div class="login-error">
+                        <span class="error-icon">⚠</span>
+                        <span>{{ error }}</span>
+                    </div>
+                    {% endif %}
+
+                    <div class="form-group">
+                        <label class="form-label">Username</label>
+                        <input type="text" name="username" class="form-input"
+                               required autofocus placeholder="Masukkan username">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Password</label>
+                        <input type="password" name="password" class="form-input"
+                               required placeholder="Masukkan password">
+                    </div>
+
+                    <button type="submit" class="login-submit">Masuk →</button>
+                </form>
+
+                <div class="login-hint">
+                    Akun default: <code>admin</code> · <code>admin123</code>
+                </div>
+
+                <a href="/" class="login-back">← Kembali ke Beranda</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

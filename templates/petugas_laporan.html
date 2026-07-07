@@ -1,0 +1,118 @@
+{% extends "petugas_layout.html" %}
+{% block title %}Laporan Bulanan{% endblock %}
+{% block nav_laporan %}active{% endblock %}
+
+{% block content %}
+<header class="page-header">
+    <div>
+        <p class="page-eyebrow">REKAPITULASI</p>
+        <h1 class="page-title">Laporan Bulanan</h1>
+    </div>
+    <p class="page-meta" id="laporan-periode">—</p>
+</header>
+
+<div class="laporan-filter">
+    <div class="filter-group">
+        <label class="filter-label">Bulan</label>
+        <select id="filter-bulan" class="filter-select">
+            <option value="1">Januari</option>
+            <option value="2">Februari</option>
+            <option value="3">Maret</option>
+            <option value="4">April</option>
+            <option value="5">Mei</option>
+            <option value="6">Juni</option>
+            <option value="7">Juli</option>
+            <option value="8">Agustus</option>
+            <option value="9">September</option>
+            <option value="10">Oktober</option>
+            <option value="11">November</option>
+            <option value="12">Desember</option>
+        </select>
+    </div>
+    <div class="filter-group">
+        <label class="filter-label">Tahun</label>
+        <select id="filter-tahun" class="filter-select"></select>
+    </div>
+    <button id="btn-tampilkan" class="btn-cetak" style="background:#0052CC;">
+        <i data-lucide="search" style="width:14px;height:14px;stroke-width:2;"></i>
+        Tampilkan
+    </button>
+    <button onclick="window.print()" class="btn-cetak">
+        <i data-lucide="printer" style="width:14px;height:14px;stroke-width:2;"></i>
+        Cetak Laporan
+    </button>
+</div>
+
+<section class="laporan-summary">
+    <div class="sum-card sum-ktp">
+        <p class="sum-label">
+            <i data-lucide="credit-card" style="width:12px;height:12px;stroke-width:2;vertical-align:middle;margin-right:4px;"></i>
+            KTP Elektronik
+        </p>
+        <p class="sum-value" id="sum-ktp">0</p>
+    </div>
+    <div class="sum-card sum-kk">
+        <p class="sum-label">
+            <i data-lucide="users" style="width:12px;height:12px;stroke-width:2;vertical-align:middle;margin-right:4px;"></i>
+            Kartu Keluarga
+        </p>
+        <p class="sum-value" id="sum-kk">0</p>
+    </div>
+    <div class="sum-card sum-akta">
+        <p class="sum-label">
+            <i data-lucide="file-text" style="width:12px;height:12px;stroke-width:2;vertical-align:middle;margin-right:4px;"></i>
+            Akta Kelahiran
+        </p>
+        <p class="sum-value" id="sum-akta">0</p>
+    </div>
+    <div class="sum-card sum-total">
+        <p class="sum-label">
+            <i data-lucide="layers" style="width:12px;height:12px;stroke-width:2;vertical-align:middle;margin-right:4px;"></i>
+            Total Permohonan
+        </p>
+        <p class="sum-value" id="sum-total">0</p>
+    </div>
+</section>
+
+<div class="tabel-wrapper">
+    <div class="tabel-header-bar">
+        <div>
+            <div class="tabel-title">Detail Permohonan</div>
+            <div class="tabel-sub">Rekap seluruh permohonan pada periode yang dipilih</div>
+        </div>
+    </div>
+    <table class="tabel-antrian">
+        <thead>
+            <tr>
+                <th>
+                    <i data-lucide="hash" style="width:11px;height:11px;stroke-width:2;vertical-align:middle;margin-right:4px;"></i>
+                    No. Antrian
+                </th>
+                <th>
+                    <i data-lucide="tag" style="width:11px;height:11px;stroke-width:2;vertical-align:middle;margin-right:4px;"></i>
+                    Layanan
+                </th>
+                <th>Deskripsi</th>
+                <th>
+                    <i data-lucide="calendar" style="width:11px;height:11px;stroke-width:2;vertical-align:middle;margin-right:4px;"></i>
+                    Waktu Daftar
+                </th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody id="laporan-body">
+            <tr>
+                <td colspan="5" class="empty">
+                    <i data-lucide="calendar-search" style="width:20px;height:20px;stroke-width:1.5;display:block;margin:0 auto 8px;"></i>
+                    Pilih bulan dan tahun lalu klik Tampilkan
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="/static/js/laporan.js"></script>
+<script>lucide.createIcons();</script>
+{% endblock %}

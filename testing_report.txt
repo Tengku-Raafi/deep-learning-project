@@ -1,0 +1,32 @@
+============================================================
+TESTING REPORT — LSTM SIBI
+============================================================
+
+Model       : best_model.h5
+Test samples: 75
+
+Accuracy Train : 97.00%
+Accuracy Test  : 92.00%
+Precision      : 92.12%
+Recall         : 92.00%
+F1-Score       : 91.95%
+
+Classification Report:
+              precision    recall  f1-score   support
+
+         KTP       0.86      0.80      0.83        15
+          KK       1.00      0.93      0.97        15
+        AKTA       0.87      0.87      0.87        15
+          YA       0.88      1.00      0.94        15
+       TIDAK       1.00      1.00      1.00        15
+
+    accuracy                           0.92        75
+   macro avg       0.92      0.92      0.92        75
+weighted avg       0.92      0.92      0.92        75
+
+Confusion Matrix:
+[[12  0  2  1  0]
+ [ 0 14  0  1  0]
+ [ 2  0 13  0  0]
+ [ 0  0  0 15  0]
+ [ 0  0  0  0 15]]

@@ -1,0 +1,116 @@
+{% extends "petugas_layout.html" %}
+{% block title %}Dashboard{% endblock %}
+{% block nav_dashboard %}active{% endblock %}
+
+{% block content %}
+<header class="page-header">
+    <div>
+        <p class="page-eyebrow">RINGKASAN HARI INI</p>
+        <h1 class="page-title">Dashboard</h1>
+    </div>
+    <p class="page-meta" id="page-date">—</p>
+</header>
+
+<section class="dash-stats">
+    <article class="dash-stat dash-stat-primary" style="animation-delay:0.05s">
+        <p class="dash-stat-label">Total Permohonan</p>
+        <p class="dash-stat-value" id="stat-total">0</p>
+        <div class="dash-stat-trend">
+            <i data-lucide="trending-up" style="width:12px;height:12px;stroke-width:2;"></i>
+            tercatat hari ini
+        </div>
+    </article>
+    <article class="dash-stat dash-stat-warning" style="animation-delay:0.1s">
+        <p class="dash-stat-label">Menunggu</p>
+        <p class="dash-stat-value" id="stat-menunggu">0</p>
+        <div class="dash-stat-trend">
+            <i data-lucide="clock" style="width:12px;height:12px;stroke-width:2;"></i>
+            antrian aktif
+        </div>
+    </article>
+    <article class="dash-stat dash-stat-info" style="animation-delay:0.15s">
+        <p class="dash-stat-label">Sedang Dilayani</p>
+        <p class="dash-stat-value" id="stat-dilayani">0</p>
+        <div class="dash-stat-trend">
+            <i data-lucide="user-check" style="width:12px;height:12px;stroke-width:2;"></i>
+            diproses petugas
+        </div>
+    </article>
+    <article class="dash-stat dash-stat-success" style="animation-delay:0.2s">
+        <p class="dash-stat-label">Selesai</p>
+        <p class="dash-stat-value" id="stat-selesai">0</p>
+        <div class="dash-stat-trend">
+            <i data-lucide="check-circle" style="width:12px;height:12px;stroke-width:2;"></i>
+            terlayani
+        </div>
+    </article>
+</section>
+
+<section class="dash-grid">
+    <div class="dash-card">
+        <div class="dash-card-head">
+            <div>
+                <div class="dash-card-title">Permohonan per Layanan</div>
+                <div class="dash-card-sub">Distribusi jenis dokumen hari ini</div>
+            </div>
+            <i data-lucide="bar-chart-2" style="width:18px;height:18px;stroke-width:1.75;color:#9CA3AF;"></i>
+        </div>
+        <div class="layanan-bars">
+            <div class="layanan-bar layanan-bar-ktp">
+                <div class="bar-info">
+                    <span class="bar-name">KTP Elektronik</span>
+                    <span class="bar-value" id="layanan-ktp">0</span>
+                </div>
+                <div class="bar-track">
+                    <div class="bar-fill" id="bar-ktp" style="width:0%"></div>
+                </div>
+            </div>
+            <div class="layanan-bar layanan-bar-kk">
+                <div class="bar-info">
+                    <span class="bar-name">Kartu Keluarga</span>
+                    <span class="bar-value" id="layanan-kk">0</span>
+                </div>
+                <div class="bar-track">
+                    <div class="bar-fill" id="bar-kk" style="width:0%"></div>
+                </div>
+            </div>
+            <div class="layanan-bar layanan-bar-akta">
+                <div class="bar-info">
+                    <span class="bar-name">Akta Kelahiran</span>
+                    <span class="bar-value" id="layanan-akta">0</span>
+                </div>
+                <div class="bar-track">
+                    <div class="bar-fill" id="bar-akta" style="width:0%"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="dash-card">
+        <div class="dash-card-head">
+            <div>
+                <div class="dash-card-title">Antrian Aktif</div>
+                <div class="dash-card-sub">Permohonan yang menunggu pelayanan</div>
+            </div>
+            <i data-lucide="list-ordered" style="width:18px;height:18px;stroke-width:1.75;color:#9CA3AF;"></i>
+        </div>
+        <div class="active-list" id="active-list">
+            <div class="empty-state">
+                <div class="empty-state-icon">
+                    <i data-lucide="inbox" style="width:32px;height:32px;stroke-width:1.25;"></i>
+                </div>
+                Memuat antrian...
+            </div>
+        </div>
+        <a href="/petugas/antrian" class="card-cta">
+            Lihat Semua Antrian
+            <i data-lucide="arrow-right" style="width:14px;height:14px;stroke-width:2;"></i>
+        </a>
+    </div>
+</section>
+{% endblock %}
+
+{% block scripts %}
+<script src="/static/js/dashboard.js"></script>
+<script>lucide.createIcons();</script>
+{% endblock %}

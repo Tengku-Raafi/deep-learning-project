@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Petugas{% endblock %} · Sistem Layanan Kelurahan</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Noto+Serif:ital,wght@0,600;0,700;1,600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="stylesheet" href="/static/css/petugas.css">
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='images/favicon.ico') }}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', filename='images/favicon-32x32.png') }}">
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ url_for('static', filename='images/favicon-180x180.png') }}">
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+    <script src="/static/js/modal.js"></script>
+    <style>
+        .nav-icon svg { width: 18px; height: 18px; stroke-width: 1.75; }
+        .sidebar-brand-logo svg { width: 20px; height: 20px; stroke-width: 1.75; color: #001A4D; }
+        .logout-btn svg { width: 14px; height: 14px; stroke-width: 2; vertical-align: middle; }
+    </style>
+</head>
+<body class="petugas-app">
+
+    <aside class="sidebar">
+        <div class="sidebar-brand">
+            <div class="sidebar-brand-logo">
+                <i data-lucide="landmark"></i>
+            </div>
+            <div class="sidebar-brand-info">
+                <div class="sidebar-brand-sup">Sistem Layanan</div>
+                <div class="sidebar-brand-name">Tuna Rungu</div>
+            </div>
+        </div>
+        <div class="sidebar-flag">
+            <div class="sidebar-flag-red"></div>
+            <div class="sidebar-flag-white"></div>
+        </div>
+
+        <nav class="sidebar-nav">
+            <div class="sidebar-section-label">Menu Utama</div>
+
+            <a href="/petugas" class="nav-item {% block nav_dashboard %}{% endblock %}">
+                <span class="nav-icon"><i data-lucide="layout-dashboard"></i></span>
+                <span class="nav-label">Dashboard</span>
+            </a>
+            <a href="/petugas/antrian" class="nav-item {% block nav_antrian %}{% endblock %}">
+                <span class="nav-icon"><i data-lucide="list-ordered"></i></span>
+                <span class="nav-label">Antrian Aktif</span>
+                <span class="nav-badge" id="nav-badge-aktif">0</span>
+            </a>
+
+            <div class="sidebar-section-label">Laporan</div>
+
+            <a href="/petugas/laporan" class="nav-item {% block nav_laporan %}{% endblock %}">
+                <span class="nav-icon"><i data-lucide="bar-chart-2"></i></span>
+                <span class="nav-label">Laporan Bulanan</span>
+            </a>
+            <a href="/petugas/riwayat" class="nav-item {% block nav_riwayat %}{% endblock %}">
+                <span class="nav-icon"><i data-lucide="clock"></i></span>
+                <span class="nav-label">Riwayat</span>
+            </a>
+        </nav>
+
+        <div class="sidebar-user">
+            <div class="user-avatar" id="user-avatar">A</div>
+            <div class="user-info">
+                <div class="user-name" id="user-name">Memuat...</div>
+                <div class="user-role" id="user-role">PETUGAS Sistem</div>
+            </div>
+        </div>
+
+        <div class="sidebar-footer">
+            <div class="sidebar-date" id="sidebar-date">—</div>
+            <a href="/logout" class="logout-btn">
+                <i data-lucide="log-out"></i>
+                <span>Keluar</span>
+            </a>
+            <div class="sidebar-version">v1.0.0 · PCR 2026</div>
+        </div>
+    </aside>
+
+    <main class="petugas-content">
+        {% block content %}{% endblock %}
+    </main>
+
+    <script>
+        function updateSidebarDate() {
+            const now = new Date();
+            document.getElementById('sidebar-date').textContent =
+                now.toLocaleDateString('id-ID', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
+        }
+        async function updateBadge() {
+            try {
+                const res = await fetch('/api/permohonan/list');
+                if (res.ok) {
+                    const data = await res.json();
+                    const aktif = data.filter(d => d.status !== 'selesai').length;
+                    document.getElementById('nav-badge-aktif').textContent = aktif;
+                }
+            } catch(e) {}
+        }
+        async function loadUserInfo() {
+            try {
+                const res = await fetch('/api/me');
+                if (res.ok) {
+                    const data = await res.json();
+                    document.getElementById('user-name').textContent = data.nama;
+                    document.getElementById('user-role').textContent = data.jabatan;
+                    document.getElementById('user-avatar').textContent = data.nama.charAt(0).toUpperCase();
+                }
+            } catch(e) {}
+        }
+        updateSidebarDate();
+        updateBadge();
+        loadUserInfo();
+        setInterval(updateBadge, 5000);
+        lucide.createIcons();
+    </script>
+
+    {% block scripts %}{% endblock %}
+</body>
+</html>
