@@ -10,3 +10,4 @@ dataset/
 data/
 *.zip
 .ipynb_checkpoints/
+dataset.npz 
