@@ -270,7 +270,7 @@
                 <div class="kamera-error" id="kamera-error">
                     <i data-lucide="camera-off" style="width:36px;height:36px;stroke-width:1.25;color:rgba(255,255,255,0.45);"></i>
                     <div class="kamera-error-title">Kamera Tidak Dapat Dibuka</div>
-                    <div class="kamera-error-desc">Pastikan webcam terhubung dan server berjalan.</div>
+                    <div class="kamera-error-desc">Izinkan akses kamera di browser untuk melanjutkan.</div>
                 </div>
             </div>
 
@@ -403,6 +403,10 @@
     </main>
 </div>
 
+<!-- Elemen tersembunyi untuk capture kamera browser -->
+<video id="hidden-cam" autoplay playsinline muted style="display:none;"></video>
+<canvas id="capture-canvas" style="display:none;"></canvas>
+
 <script src="/static/js/app.js"></script>
 <script>
 lucide.createIcons();
@@ -414,6 +418,113 @@ function updateClock() {
 }
 updateClock();
 setInterval(updateClock, 60000);
+
+/* ============ CAPTURE WEBCAM BROWSER -> KIRIM KE SERVER -> TAMPILKAN HASIL ============
+   Server yang gambar landmark tangan + panel info (kotak kiri atas), lalu kirim
+   balik gambar jadi (base64). Browser tinggal tampilkan sebagai src <img>.
+   window.__kameraReady / window.__kameraError dipakai oleh app.js untuk tahu
+   kapan harus sembunyikan loading spinner / tampilkan panel error.
+*/
+(function () {
+    const IMG_IDS = ['webcam-img', 'webcam-img-konfirm', 'webcam-img-syarat'];
+    const hiddenCam = document.getElementById('hidden-cam');
+    const canvas = document.getElementById('capture-canvas');
+    const ctx = canvas.getContext('2d');
+
+    window.__kameraReady = false;
+    window.__kameraError = false;
+    window.__kameraPaused = true; // baru mulai kirim frame setelah startKamera() dipanggil
+
+    let sendTimer = null;
+    let sedangKirim = false;
+
+    function tampilkanFrame(base64Jpeg) {
+        const src = 'data:image/jpeg;base64,' + base64Jpeg;
+        IMG_IDS.forEach(id => {
+            const img = document.getElementById(id);
+            if (img) img.src = src;
+        });
+        if (!window.__kameraReady) window.__kameraReady = true;
+    }
+
+    function modeUntukTahapSaatIni() {
+        const tahapAktif = document.querySelector('.user-stage.active');
+        if (!tahapAktif) return null;
+        const id = tahapAktif.id;
+        if (id === 'tahap-deteksi') return 'layanan';       // cuma KTP/KK/AKTA
+        if (id === 'tahap-konfirmasi' || id === 'tahap-syarat') return 'konfirmasi'; // cuma YA/TIDAK
+        return null; // tahap lain: gak ada gesture yang relevan
+    }
+
+    async function kirimFrame() {
+        if (window.__kameraPaused || sedangKirim) return;
+        if (hiddenCam.readyState < 2) return;
+
+        const w = hiddenCam.videoWidth;
+        const h = hiddenCam.videoHeight;
+        if (!w || !h) return;
+
+        canvas.width = w;
+        canvas.height = h;
+        ctx.drawImage(hiddenCam, 0, 0, w, h);
+        const frameData = canvas.toDataURL('image/jpeg', 0.75).split(',')[1];
+
+        sedangKirim = true;
+        try {
+            const res = await fetch('/api/deteksi/frame', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ frame: frameData, mode: modeUntukTahapSaatIni() })
+            });
+            const data = await res.json();
+            if (data.frame) tampilkanFrame(data.frame);
+        } catch (e) {
+            // biarkan, coba lagi di tick berikutnya
+        }
+        sedangKirim = false;
+    }
+
+    function tampilkanPreviewMentah() {
+        // Tampilkan 1 frame mentah (tanpa landmark) SEGERA begitu kamera browser
+        // nyala, supaya user tidak lihat layar kosong sambil nunggu balasan
+        // pertama dari server (yang butuh beberapa detik warm-up di awal).
+        const w = hiddenCam.videoWidth;
+        const h = hiddenCam.videoHeight;
+        if (!w || !h) return;
+        canvas.width = w;
+        canvas.height = h;
+        ctx.save();
+        ctx.translate(w, 0);
+        ctx.scale(-1, 1); // mirror biar konsisten sama hasil server (yang di-flip)
+        ctx.drawImage(hiddenCam, 0, 0, w, h);
+        ctx.restore();
+        const rawSrc = canvas.toDataURL('image/jpeg', 0.7);
+        IMG_IDS.forEach(id => {
+            const img = document.getElementById(id);
+            if (img) img.src = rawSrc;
+        });
+        window.__kameraReady = true; // sembunyikan spinner sekarang juga
+    }
+
+    navigator.mediaDevices.getUserMedia({
+        video: {
+            width: { ideal: 1280 },
+            height: { ideal: 720 },
+            aspectRatio: { ideal: 16 / 9 }
+        }
+    })
+        .then(stream => {
+            hiddenCam.srcObject = stream;
+            hiddenCam.onloadedmetadata = () => {
+                tampilkanPreviewMentah();
+                if (sendTimer) clearInterval(sendTimer);
+                sendTimer = setInterval(kirimFrame, 200); // ~5 fps
+            };
+        })
+        .catch(() => {
+            window.__kameraError = true;
+        });
+})();
 </script>
 </body>
 </html>

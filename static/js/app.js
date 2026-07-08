@@ -10,54 +10,83 @@ const SYARAT_LAYANAN = {
     'AKTA': ['Surat keterangan kelahiran dari bidan/RS', 'Fotokopi KTP orang tua', 'Fotokopi KK', 'Fotokopi buku nikah orang tua']
 };
 
-// ============ KAMERA — satu stream, dipindah antar tahap ============
+// ============ KAMERA — frame dikirim dari browser, hasil (dgn landmark
+// + panel info) dikirim balik server dan ditampilkan lewat src <img>.
+// Lihat script capture di user.html: window.__kameraReady / __kameraError /
+// __kameraPaused dipakai buat sinkronisasi status di sini.
 const KAMERA_IDS = ['webcam-img', 'webcam-img-konfirm', 'webcam-img-syarat'];
+
+let _cekKameraTimer = null;
 
 function tampilkanKamera(activeId) {
     KAMERA_IDS.forEach(id => {
         const img = document.getElementById(id);
         if (!img) return;
-        if (id === activeId) {
-            if (!img.src || img.src === window.location.href) {
-                img.src = '/video_feed';
-            }
-            img.style.display = 'block';
-        } else {
-            img.style.display = 'none';
-            // Jangan clear src supaya tidak putus koneksi
-        }
+        img.style.display = (id === activeId) ? 'block' : 'none';
+        // src tidak disentuh di sini — terus di-update otomatis oleh capture
+        // loop di user.html selama __kameraPaused = false.
     });
 }
 
 function startKamera() {
     if (kameraAktif) return;
-    const img     = document.getElementById('webcam-img');
     const inner   = document.getElementById('kamera-inner');
     const overlay = document.getElementById('kamera-overlay');
     const errorEl = document.getElementById('kamera-error');
 
-    if (img) {
-        img.src = '/video_feed';
-        img.style.display = 'block';
+    window.__kameraPaused = false; // mulai kirim frame lagi
+
+    if (_cekKameraTimer) clearInterval(_cekKameraTimer);
+
+    const tandaiAktif = () => {
+        document.getElementById('webcam-img').style.display = 'block';
         if (inner)   inner.style.display = 'none';
         if (overlay) overlay.classList.add('active');
         if (errorEl) errorEl.classList.remove('show');
         kameraAktif = true;
+    };
 
-        img.onerror = () => {
-            img.style.display = 'none';
-            if (inner)   inner.style.display = 'flex';
-            if (overlay) overlay.classList.remove('active');
-            if (errorEl) errorEl.classList.add('show');
-            kameraAktif = false;
-        };
+    const tandaiError = () => {
+        if (inner)   inner.style.display = 'none';
+        if (overlay) overlay.classList.remove('active');
+        if (errorEl) errorEl.classList.add('show');
+        kameraAktif = false;
+    };
+
+    if (window.__kameraReady) {
+        tandaiAktif();
+        return;
     }
+    if (window.__kameraError) {
+        tandaiError();
+        return;
+    }
+
+    // Belum ada frame pertama — tampilkan loading, cek ulang tiap 300ms
+    // (maksimal ~10 detik) sampai frame pertama datang atau error muncul.
+    if (inner)   inner.style.display = 'flex';
+    if (overlay) overlay.classList.remove('active');
+
+    let percobaan = 0;
+    _cekKameraTimer = setInterval(() => {
+        percobaan++;
+        if (window.__kameraReady) {
+            clearInterval(_cekKameraTimer);
+            tandaiAktif();
+        } else if (window.__kameraError || percobaan > 33) {
+            clearInterval(_cekKameraTimer);
+            tandaiError();
+        }
+    }, 300);
 }
 
 function stopKamera() {
+    if (_cekKameraTimer) { clearInterval(_cekKameraTimer); _cekKameraTimer = null; }
+    window.__kameraPaused = true; // hemat resource & bandwidth saat tidak dibutuhkan
+
     KAMERA_IDS.forEach(id => {
         const img = document.getElementById(id);
-        if (img) { img.src = ''; img.style.display = 'none'; }
+        if (img) img.style.display = 'none';
     });
     const inner   = document.getElementById('kamera-inner');
     const overlay = document.getElementById('kamera-overlay');
@@ -77,8 +106,10 @@ function nextTahap(tahapId) {
         tampilkanKamera('webcam-img');
         startPolling();
     } else if (tahapId === 'konfirmasi') {
+        window.__kameraPaused = false;
         tampilkanKamera('webcam-img-konfirm');
     } else if (tahapId === 'syarat') {
+        window.__kameraPaused = false;
         tampilkanKamera('webcam-img-syarat');
     } else {
         stopPolling();
@@ -262,4 +293,4 @@ function resetSistem() {
 // ============ INIT ============
 window.addEventListener('DOMContentLoaded', () => {
     startCountdown();
-    });
+});
